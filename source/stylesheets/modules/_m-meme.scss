@@ -2,7 +2,7 @@ $m: '.m-meme';
 
 body {
   margin: 0;
-  padding: 0 20px;
+  padding: 0;
 }
 
 #{$m} {
@@ -18,4 +18,10 @@ body {
   &:after {
     clear: both;
   }
+}
+.stripes{
+  background:url('../images/stripes.png') no-repeat;
+  background-size:cover;
+  height:20px;
+  width:100%;
 }

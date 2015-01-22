@@ -57,8 +57,9 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   render: function() {
     var d = this.model.toJSON();
-    this.$('#headline').val(d.headlineText);
-    this.$('#credit').val(d.creditText);
+    this.$('#title').val(d.titleText);
+    this.$('#subtitle').val(d.subtitleText);
+    this.$('#description').val(d.descriptionText);
     this.$('#watermark').val(d.watermarkSrc);
     this.$('#image-scale').val(d.imageScale);
     this.$('#font-size').val(d.fontSize);
@@ -69,26 +70,29 @@ MEME.MemeEditorView = Backbone.View.extend({
   },
 
   events: {
-    'input #headline': 'onHeadline',
-    'input #credit': 'onCredit',
+    'input #title': 'onTitle',
+    'input #subtitle': 'onSubtitle',
+    'input #description': 'onDescription',
     'input #image-scale': 'onScale',
     'change #font-size': 'onFontSize',
     'change #font-family': 'onFontFamily',
+    'change #sub-font-family': 'onSubFontFamily',
     'change #watermark': 'onWatermark',
     'change #text-align': 'onTextAlign',
     'change #text-shadow': 'onTextShadow',
-    'change [name="overlay"]': 'onOverlayColor',
-    'dragover #dropzone': 'onZoneOver',
-    'dragleave #dropzone': 'onZoneOut',
-    'drop #dropzone': 'onZoneDrop'
+    'change [name="overlay"]': 'onOverlayColor'
   },
 
-  onCredit: function() {
-    this.model.set('creditText', this.$('#credit').val());
+  onSubtitle: function() {
+    this.model.set('subtitleText', this.$('#subtitle').val());
   },
 
-  onHeadline: function() {
-    this.model.set('headlineText', this.$('#headline').val());
+  onTitle: function() {
+    this.model.set('titleText', this.$('#title').val());
+  },
+
+  onDescription: function() {
+    this.model.set('descriptionText', this.$('#description').val());
   },
 
   onTextAlign: function() {
@@ -101,6 +105,10 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   onFontSize: function() {
     this.model.set('fontSize', this.$('#font-size').val());
+  },
+
+  onSubFontFamily: function() {
+    this.model.set('fontFamily', this.$('#font-family').val());
   },
 
   onFontFamily: function() {
@@ -118,31 +126,5 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   onOverlayColor: function(evt) {
     this.model.set('overlayColor', this.$(evt.target).val());
-  },
-
-  getDataTransfer: function(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    return evt.originalEvent.dataTransfer || null;
-  },
-
-  onZoneOver: function(evt) {
-    var dataTransfer = this.getDataTransfer(evt);
-    if (dataTransfer) {
-      dataTransfer.dropEffect = 'copy';
-      this.$('#dropzone').addClass('pulse');
-    }
-  },
-
-  onZoneOut: function(evt) {
-    this.$('#dropzone').removeClass('pulse');
-  },
-
-  onZoneDrop: function(evt) {
-    var dataTransfer = this.getDataTransfer(evt);
-    if (dataTransfer) {
-      this.model.loadBackground(dataTransfer.files[0]);
-      this.$('#dropzone').removeClass('pulse');
-    }
   }
 });

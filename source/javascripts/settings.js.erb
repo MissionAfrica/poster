@@ -1,27 +1,24 @@
 var MEME_SETTINGS = {
-  creditText: 'subtitle', // Default "credits" text.
-  creditSize: 14, // Font size for credit text.
-  downloadName: 'share', // The name of the downloaded image file (will have a ".png" extension added).
+  subtitleText: 'subtitle', // Default "credits" text.
+  subtitleSize: 14, // Font size for credit text.
+  descriptionText: 'A description of your event',
+  downloadName: 'poster', // The name of the downloaded image file (will have a ".png" extension added).
   fontColor: 'white', // Universal font color.
 
   // Universal font family for texts:
   // Note that you'll need to included quoted font names as you would in CSS, ie: '"Knockout 28 B"'.
   fontFamily: 'ChunkFive-Roman',
+  subFontFamily: 'Sans-Serif',
   // Font family options: set to empty array to disable font selector.
   // These options may also be formatted as {text:'Knockout', value:'"Knockout 28 B"'}.
   fontFamilyOpts: ['Helvetica Neue', {text:'Chunk Five', value:'ChunkFive-Roman'}],
 
   // Font size of main headline:
-  fontSize: 24,
+  fontSize: 36,
   // Font size options: set to empty array to disable font-size selector.
-  fontSizeOpts: [
-    {text: 'Small text', value: 24},
-    {text: 'Medium text', value: 36},
-    {text: 'Giant text', value: 48}
-  ],
 
-  headlineText: 'Write your own headline', // Default headline text.
-  height: 378, // Canvas rendering height.
+  titleText: 'Your event name', // Default headline text.
+  height: 842, // Canvas rendering height.
   imageScale: 1, // Background image scale.
   imageSrc: '', // Default background image path. MUST reside on host domain, or use base64 data.
   overlayAlpha: 0.6, // Opacity of image overlay.
@@ -43,7 +40,7 @@ var MEME_SETTINGS = {
 
   textShadow: false, // Text shadow toggle.
   textShadowEdit: true, // Toggles text shadow control within the editor.
-  watermarkAlpha: 0.8, // Opacity of watermark image.
+  watermarkAlpha: 1, // Opacity of watermark image.
   watermarkMaxWidthRatio: 0.25, // Maximum allowed width of watermark (percentage of total canvas width).
 
   // Path to the watermark image source, or blank for no watermark:
@@ -53,9 +50,13 @@ var MEME_SETTINGS = {
   // NOTE: only populate the "data" attributes with base64 data when concerned about Cross-Origin requests...
   // Otherwise, just leave "data" attributes blank and allow images to load from your server.
   watermarkOpts: [
-    {text: 'Mission Africa (Outline)', value: '<%= image_path("ma-mono.png") %>', data: '<%= asset_data_uri("ma-mono.png") %>'},
-    {text: 'Mission Africa (Colour)', value: '<%= image_path("ma-colour.png") %>', data: '<%= asset_data_uri("ma-colour.png") %>'}
+    {text: 'Boy (Green)', value: '<%= image_path("boy-green.png") %>', data: ''},
+    {text: 'Boy (Orange)', value: '<%= image_path("boy-orange.png") %>', data: ''},
+    {text: 'Boy (Purple)', value: '<%= image_path("boy-purple.png") %>', data: ''},
+    {text: 'Women (Green)', value: '<%= image_path("women-green.png") %>', data: ''},
+    {text: 'Women (Orange)', value: '<%= image_path("women-orange.png") %>', data: ''},
+    {text: 'Women (Purple)', value: '<%= image_path("women-purple.png") %>', data: ''},
   ],
 
-  width: 755 // Canvas rendering width.
+  width: 595// Canvas rendering width.
 };

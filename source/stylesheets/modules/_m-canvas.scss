@@ -2,14 +2,14 @@ $m: '.m-canvas';
 
 #{$m} {
   @media screen and (min-width: 700px) {
-    width: 70%;
+    width: 595px;
   }
 
   #{$m}__canvas {
     background: #fcfcfc;
 
     canvas {
-      max-width: 100% !important;
+      max-width: 595px !important;
     }
   }
 
