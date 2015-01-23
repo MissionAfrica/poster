@@ -5,33 +5,35 @@
 MEME.MemeModel = Backbone.Model.extend({
   defaults: {
     backgroundPosition: { x: null, y: null },
-    subtitleText: '',
-    subtitleSize: 12,
-    descriptionText: '',
+    creditText: 'Source:',
+    creditSize: 12,
     downloadName: 'share',
+    dragging: null, // Or 'roundel'
     fontColor: 'white',
-    fontFamily: 'ChunkFive-Roman',
-    subFontFamily: 'Sans-Serif',
+    fontFamily: 'Helvetica Neue',
     fontFamilyOpts: ['Helvetica', 'Helvetica Neue', 'Comic Sans MS'],
-    fontSize: 36,
+    fontSize: 24,
     fontSizeOpts: [14, 24, 36],
-    titleText: 'Write your own headline',
-    height: 842,
+    footerSrc: '',
+    headlineText: 'Write your own headline',
+    height: 378,
     imageScale: 1,
     imageSrc: '',
     overlayAlpha: 0.5,
     overlayColor: '#000',
     overlayColorOpts: ['#000', '#777', '#2980b9'],
     paddingRatio: 0.05,
+    roundel: false,
+    roundelPosition: { x: null, y: null },
     textAlign: 'left',
     textAlignOpts: ['left', 'center', 'right'],
     textShadow: true,
     textShadowEdit: true,
     watermarkAlpha: 1,
-    watermarkMaxWidthRatio: 1,
+    watermarkMaxWidthRatio: 0.25,
     watermarkSrc: '',
     watermarkOpts: [],
-    width: 595
+    width: 755
   },
 
   // Initialize with custom image members used for background and watermark:
@@ -39,6 +41,7 @@ MEME.MemeModel = Backbone.Model.extend({
   initialize: function() {
     this.background = new Image();
     this.watermark = new Image();
+    this.footer = new Image();
 
     // Set image sources to trigger "change" whenever they reload:
     this.background.onload = this.watermark.onload = _.bind(function() {
@@ -48,6 +51,7 @@ MEME.MemeModel = Backbone.Model.extend({
     // Set initial image and watermark sources:
     if (this.get('imageSrc')) this.background.src = this.get('imageSrc');
     if (this.get('watermarkSrc')) this.setWatermarkSrc(this.get('watermarkSrc'));
+    if (this.get('footerSrc')) this.setFooterSrc(this.get('footerSrc'));
 
     // Update image and watermark sources if new source URLs are set:
     this.listenTo(this, 'change:imageSrc', function() {
@@ -61,6 +65,11 @@ MEME.MemeModel = Backbone.Model.extend({
   // Specifies if the background image currently has data:
   hasBackground: function() {
     return this.background.width && this.background.height;
+  },
+
+  // Specifies if the background image currently has data:
+  hasRoundel: function() {
+    return this.attributes.roundel;
   },
 
   // Loads a file stream into an image object:
@@ -80,6 +89,10 @@ MEME.MemeModel = Backbone.Model.extend({
     this.loadFileForImage(file, this.watermark);
   },
 
+  loadFooter: function(file) {
+    this.loadFileForImage(file, this.footer);
+  },
+
   // When setting a new watermark "src",
   // this method looks through watermark options and finds the matching option.
   // The option's "data" attribute will be set as the watermark, if defined.
@@ -97,5 +110,19 @@ MEME.MemeModel = Backbone.Model.extend({
 
     this.watermark.src = data;
     this.set('watermarkSrc', src);
+  },
+  setFooterSrc: function(src) {
+    var opt = _.findWhere(this.get('footerOpts'), {value: src});
+    var data = (opt && opt.data) || src;
+
+    // Toggle cross-origin attribute for Data URI requests:
+    if (data.indexOf('data:') === 0) {
+      this.footer.removeAttribute('crossorigin');
+    } else {
+      this.footer.setAttribute('crossorigin', 'anonymous');
+    }
+
+    this.footer.src = data;
+    this.set('footerSrc', src);
   }
 });

@@ -3,13 +3,14 @@ $m: '.m-canvas';
 #{$m} {
   @media screen and (min-width: 700px) {
     width: 595px;
+    max-width: 600px;
   }
 
   #{$m}__canvas {
-    background: #fcfcfc;
+    background: transparent;
 
     canvas {
-      max-width: 595px !important;
+      max-width: 100% !important;
     }
   }
 
@@ -18,9 +19,10 @@ $m: '.m-canvas';
     border: none;
     border-radius: 5px;
     color: #fff;
-    display: block;
+    display: inline-block;
     font-weight: 700;
     line-height: 50px;
+    padding: 0 10px;
     text-align: center;
     text-decoration: none;
     @include transition (background-color ease-in-out 0.3s);
@@ -34,5 +36,20 @@ $m: '.m-canvas';
     color: #777;
     font-size: 12px;
     font-style: italic;
+  }
+
+
+  #{$m}__panel {
+    background: #E25A30;
+    padding: 12px 14px;
+    color: #FFF;
+    border-radius: 5px;
+    line-height: 18px;
+    text-align: center;
+    max-width: 600px;
+
+    a{
+      color: #FFF;
+    }
   }
 }

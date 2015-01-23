@@ -5,9 +5,21 @@
 MEME.MemeEditorView = Backbone.View.extend({
 
   initialize: function() {
+    _.bindAll(this, 'detectScroll');
+    $(window).scroll(this.detectScroll);
+
     this.buildForms();
     this.listenTo(this.model, 'change', this.render);
     this.render();
+  },
+
+  detectScroll: function(e) {
+    var top = $(document).scrollTop();
+    if(top >= 90) {
+      $('.m-canvas').addClass('fixed');
+    } else {
+      $('.m-canvas').removeClass('fixed');
+    }
   },
 
   // Builds all form options based on model option arrays:
@@ -39,6 +51,11 @@ MEME.MemeEditorView = Backbone.View.extend({
       $('#font-family').append(buildOptions(d.fontFamilyOpts)).show();
     }
 
+    // Build color options:
+    if (d.themeOpts && d.themeOpts.length) {
+      $('#theme').append(buildOptions(d.themeOpts)).show();
+    }
+
     // Build watermark options:
     if (d.watermarkOpts && d.watermarkOpts.length) {
       $('#watermark').append(buildOptions(d.watermarkOpts)).show();
@@ -53,46 +70,137 @@ MEME.MemeEditorView = Backbone.View.extend({
 
       $('#overlay').show().find('ul').append(overlayOpts);
     }
+
+    // Build background color options:
+    if (d.backgroundColorOpts && d.backgroundColorOpts.length) {
+      var backgroundOpts = _.reduce(d.backgroundColorOpts, function(memo, opt) {
+        var color = opt.hasOwnProperty('value') ? opt.value : opt;
+        return memo += '<li><label><input class="m-editor__swatch" style="background-color:'+color+'" type="radio" name="background" value="'+color+'"></label></li>';
+      }, '');
+
+      $('#background').show().find('ul').append(backgroundOpts);
+    }
   },
 
   render: function() {
     var d = this.model.toJSON();
-    this.$('#title').val(d.titleText);
-    this.$('#subtitle').val(d.subtitleText);
-    this.$('#description').val(d.descriptionText);
+    this.$('#headline').val(d.headlineText);
+    this.$('#name').val(d.nameText);
+    this.$('[name="dragging"][value="' + d.dragging + '"]').prop('checked', true);
+    this.$('[name="roundel"]').prop('checked', d.roundel);
+    this.$('#credit').val(d.creditText);
     this.$('#watermark').val(d.watermarkSrc);
     this.$('#image-scale').val(d.imageScale);
     this.$('#font-size').val(d.fontSize);
     this.$('#font-family').val(d.fontFamily);
+    this.$('#theme').val(d.theme);
     this.$('#text-align').val(d.textAlign);
     this.$('#text-shadow').prop('checked', d.textShadow);
     this.$('#overlay').find('[value="'+d.overlayColor+'"]').prop('checked', true);
+    this.$('#background').find('[value="'+d.backgroundColor+'"]').prop('checked', true);
   },
 
   events: {
-    'input #title': 'onTitle',
-    'input #subtitle': 'onSubtitle',
-    'input #description': 'onDescription',
+    'input #headline': 'onHeadline',
+    'input #credit': 'onCredit',
+    'input #name': 'onName',
     'input #image-scale': 'onScale',
     'change #font-size': 'onFontSize',
     'change #font-family': 'onFontFamily',
-    'change #sub-font-family': 'onSubFontFamily',
+    'change #theme': 'onTheme',
     'change #watermark': 'onWatermark',
     'change #text-align': 'onTextAlign',
     'change #text-shadow': 'onTextShadow',
-    'change [name="overlay"]': 'onOverlayColor'
+    'change [name="overlay"]': 'onOverlayColor',
+    'change [name="background"]': 'onBackgroundColor',
+    'change [name="dragging"]': 'onDragging',
+    'change [name="roundel"]': 'onRoundel',
+    'dragover #dropzone': 'onZoneOver',
+    'dragleave #dropzone': 'onZoneOut',
+    'drop #dropzone': 'onZoneDrop',
+    'click #doubleOpenQuote': 'onDoubleOpenQuote',
+    'click #doubleCloseQuote': 'onDoubleCloseQuote',
+    'click #singleOpenQuote': 'onSingleOpenQuote',
+    'click #singleCloseQuote': 'onSingleCloseQuote',
+    'click #emdash': 'onEmdash'
   },
 
-  onSubtitle: function() {
-    this.model.set('subtitleText', this.$('#subtitle').val());
+  onRoundel: function() {
+    this.model.set('roundel', this.$('[name="roundel"]:checked').val());
+    if(this.$('[name="roundel"]:checked').val()) {
+      this.model.set('dragging', 'roundel');
+    }
   },
 
-  onTitle: function() {
-    this.model.set('titleText', this.$('#title').val());
+  onDragging: function() {
+    this.model.set('dragging', this.$('[name="dragging"]:checked').val());
   },
 
-  onDescription: function() {
-    this.model.set('descriptionText', this.$('#description').val());
+  onDoubleOpenQuote: function() {
+    var cursor = this.$('#headline')[0].selectionStart;
+    var cursorEnd = this.$('#headline')[0].selectionEnd;
+    var value = this.$('#headline').val();
+    
+    if(cursorEnd > cursor) {
+      this.$('#headline').val(value.substring(0, cursorEnd) + '”' + value.substring(cursorEnd));
+      value = this.$('#headline').val();
+    }
+    
+    this.$('#headline').val(value.substring(0, cursor) + '“' + value.substring(cursor));
+
+    this.onHeadline();
+    return false;
+  },
+
+  onDoubleCloseQuote: function() {
+    var cursor = this.$('#headline')[0].selectionStart;
+    var value = this.$('#headline').val();
+    this.$('#headline').val(value.substring(0, cursor) + '”' + value.substring(cursor));
+    this.onHeadline();
+    return false;
+  },
+
+  onSingleOpenQuote: function() {
+    var cursor = this.$('#headline')[0].selectionStart;
+    var cursorEnd = this.$('#headline')[0].selectionEnd;
+    var value = this.$('#headline').val();
+    
+    if(cursorEnd > cursor) {
+      this.$('#headline').val(value.substring(0, cursorEnd) + '’' + value.substring(cursorEnd));
+      value = this.$('#headline').val();
+    }
+    
+    this.$('#headline').val(value.substring(0, cursor) + '‘' + value.substring(cursor));
+    this.onHeadline();
+    return false;
+  },
+
+  onSingleCloseQuote: function() {
+    var cursor = this.$('#headline')[0].selectionStart;
+    var value = this.$('#headline').val();
+    this.$('#headline').val(value.substring(0, cursor) + '’' + value.substring(cursor));
+    this.onHeadline();
+    return false;
+  },
+
+  onEmdash: function() {
+    var cursor = this.$('#headline')[0].selectionStart;
+    var value = this.$('#headline').val();
+    this.$('#headline').val(value.substring(0, cursor) + '—' + value.substring(cursor));
+    this.onHeadline();
+    return false;
+  },
+
+  onName: function() {
+    this.model.set('nameText', this.$('#name').val());
+  },
+
+  onCredit: function() {
+    this.model.set('creditText', this.$('#credit').val());
+  },
+
+  onHeadline: function() {
+    this.model.set('headlineText', this.$('#headline').val());
   },
 
   onTextAlign: function() {
@@ -107,12 +215,12 @@ MEME.MemeEditorView = Backbone.View.extend({
     this.model.set('fontSize', this.$('#font-size').val());
   },
 
-  onSubFontFamily: function() {
+  onFontFamily: function() {
     this.model.set('fontFamily', this.$('#font-family').val());
   },
 
-  onFontFamily: function() {
-    this.model.set('fontFamily', this.$('#font-family').val());
+  onTheme: function() {
+    this.model.set('theme', this.$('#theme').val());
   },
 
   onWatermark: function() {
@@ -126,5 +234,37 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   onOverlayColor: function(evt) {
     this.model.set('overlayColor', this.$(evt.target).val());
+  },
+
+  onBackgroundColor: function(evt) {
+    this.model.set('backgroundColor', this.$(evt.target).val());
+  },
+
+  getDataTransfer: function(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    return evt.originalEvent.dataTransfer || null;
+  },
+
+  onZoneOver: function(evt) {
+    var dataTransfer = this.getDataTransfer(evt);
+    if (dataTransfer) {
+      dataTransfer.dropEffect = 'copy';
+      this.$('#dropzone').addClass('pulse');
+    }
+  },
+
+  onZoneOut: function(evt) {
+    this.$('#dropzone').removeClass('pulse');
+  },
+
+  onZoneDrop: function(evt) {
+    var dataTransfer = this.getDataTransfer(evt);
+    if (dataTransfer) {
+      this.model.loadBackground(dataTransfer.files[0]);
+      this.$('#dropzone').removeClass('pulse');
+    }
+
+    this.model.set('dragging', 'background');
   }
 });

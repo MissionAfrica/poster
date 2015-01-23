@@ -2,12 +2,12 @@ $m: '.m-meme';
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
 }
 
 #{$m} {
   margin: 20px auto 50px;
-  max-width: 990px;
+  max-width: 1100px;
 
   // Mini-clearfix:
   &:before,
@@ -18,10 +18,4 @@ body {
   &:after {
     clear: both;
   }
-}
-.stripes{
-  background:url('../images/stripes.png') no-repeat;
-  background-size:cover;
-  height:20px;
-  width:100%;
 }
