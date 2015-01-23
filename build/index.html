@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1">
+<!-- Always force latest IE rendering engine or request Chrome Frame -->
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<title>Mission Africa Poster Maker</title>
+<link href="stylesheets/main-06f354e3.css" rel="stylesheet" type="text/css" />
+<meta name="description" content="" />
+  </head>
+  <body class="index">
+    <div class="m-meme">
+      <h1>Mission Africa Poster Maker</h1>
+      <form class="m-editor" id="meme-editor-view">
+
+  <div class="panel">
+    <div class="panel-header"><h1>Choose Style</h1></div>
+    <div class="panel-body">
+      <h2><label for="theme">Theme</label></h2>
+      <select class="theme" id="theme">
+        <option value="" disabled>Select a theme</option>
+      </select>
+
+      <h2><label for="watermark">Image</label></h2>
+      <select class="watermark" id="watermark">
+        <option value="" disabled>Select an image</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h1>Add Media</h1></div>
+    <div class="panel-body">
+      <div class="dropzone" id="dropzone">Drop Image Here</div>
+
+      <h2><label for="image-scale">Resize image</label></h2>
+      <input id="image-scale" type="range" max="4" min=".01" step=".01" value="1">
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h1>Add Text</h1></div>
+    <div class="panel-body">
+      <h2><label for="headline">Title</label></h2>
+      <textarea id="headline" name="Title" type="text" value=""></textarea>
+
+      <h2><label for="name">Description</label></h2>
+      <textarea id="name" type="text" name="name" value="" /></textarea>
+
+      <h2><label for="font-size">Font Size</label></h2>
+      <select class="font-size" id="font-size">
+        <option value="" disabled>Select a font size</option>
+      </select>
+    </div>
+  </div>
+</form>
+
+      <div class="m-canvas" id="meme-canvas-view">
+  <div class="m-canvas__canvas" id="meme-canvas">
+    <noscript>Sorry, this tool requires a canvas-enabled browser. Try Google Chrome.</noscript>
+  </div>
+  <p class="m-canvas__download">
+    <a href="#" download="share.png" id="meme-download">Download Image</a>
+  </p>
+</div>
+
+    </div>
+    <script src="javascripts/application-0c1fc793.js" type="text/javascript"></script>
+    <script src="javascripts/settings-d9fd544a.js" type="text/javascript"></script>
+  </body>
+</html>
