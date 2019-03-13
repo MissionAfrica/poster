@@ -1,0 +1,115 @@
+var MEME_SETTINGS = {
+  theme: 'aqua',
+  themeOpts: [
+    {text: 'Aqua', value: 'aqua'},
+    {text: 'Purple', value: 'purple'},
+    {text: 'Orange', value: 'orange'},
+  ],
+  themeData: {
+    'aqua': {
+      background: '#10A7A4',
+      headline: '#ffffff',
+      name: '#ffffff',
+      quote: '#ffffff',
+      credit: '#ffffff',
+      headlineFont: 'ChunkFive-Roman',
+      nameFont: 'sans-serif',
+      font: 'sans-serif'
+    },
+    'purple': {
+      background: '#5A427B',
+      headline: '#ffffff',
+      name: '#ffffff',
+      quote: '#ffffff',
+      credit: '#ffffff',
+      headlineFont: 'ChunkFive-Roman',
+      nameFont: 'sans-serif',
+      font: 'sans-serif'
+    },
+    'orange': {
+      background: '#F79520',
+      headline: '#ffffff',
+      name: '#ffffff',
+      quote: '#ffffff',
+      credit: '#ffffff',
+      headlineFont: 'ChunkFive-Roman',
+      nameFont: 'sans-serif',
+      font: 'sans-serif'
+    }
+  },
+
+  creditText: 'Credit', // Default "credits" text.
+  creditSize: 14, // Font size for credit text.
+  creditColor: '#000000',
+  downloadName: 'share', // The name of the downloaded image file (will have a ".png" extension added).
+  fontColor: '#6b6b6b', // Universal font color.
+
+  nameText: 'Enter your description here.',
+  nameSize: 16,
+  nameColor: '#850029',
+
+
+  // Universal font family for texts:
+  // Note that you'll need to included quoted font names as you would in CSS, ie: '"Knockout 28 B"'.
+  fontFamily: 'ChunkFive-Roman',
+  subFontFamily: 'sans-serif',
+  // Font family options: set to empty array to disable font selector.
+  // These options may also be formatted as {text:'Knockout', value:'"Knockout 28 B"'}.
+  fontFamilyOpts: [],
+
+  // Font size of main headline:
+  fontSize: 28,
+  // Font size options: set to empty array to disable font-size selector.
+  fontSizeOpts: [
+    {text: 'Small text', value: 22},
+    {text: 'Medium text', value: 28},
+    {text: 'Large text', value: 36}
+  ],
+
+  headlineText: 'Write your own headline', // Default headline text.
+  height: 842, // Canvas rendering height.
+  imageScale: 1, // Background image scale.
+  imageSrc: '', // Default background image path. MUST reside on host domain, or use base64 data.
+  overlayAlpha: 0.5, // Opacity of image overlay.
+
+  roundelText: '30-day trial only £1',
+
+  // Image overlay color, or blank ('') for no overlay:
+  overlayColor: '#ebebe9',
+  // Overlay color options: set to empty array to disable overlay options selector.
+  overlayColorOpts: ['#ebebe9'],
+
+  backgroundColor: '#ebebe9',
+  // Overlay color options: set to empty array to disable overlay options selector.
+  backgroundColorOpts: ['#ebebe9', '#aec1d0'],
+
+  paddingRatio: 0.05, // Percentage of canvas width to use as edge padding.
+
+  // Text alignment: valid settings are "left", "center", and "right".
+  textAlign: 'left',
+  // Text alignment options: set to empty array to disable alignment picker.
+  textAlignOpts: [
+    {text: 'Align left', value: 'left'},
+    {text: 'Align center', value: 'center'}
+  ],
+
+  textShadow: false, // Text shadow toggle.
+  textShadowEdit: true, // Toggles text shadow control within the editor.
+  watermarkAlpha: 1, // Opacity of watermark image.
+  watermarkMaxWidthRatio: 0.4, // Maximum allowed width of watermark (percentage of total canvas width).
+
+  // Path to the watermark image source, or blank for no watermark:
+  watermarkSrc: (localStorage && localStorage.getItem('meme_watermark')) || '<%= image_path("boy.jpeg") %>',
+  footerSrc: (localStorage && localStorage.getItem('meme_footer')) || '<%= image_path("footer.png") %>',
+  // Watermark image options: set to empty array to disable watermark picker.
+  // NOTE: only populate the "data" attributes with base64 data when concerned about Cross-Origin requests...
+  // Otherwise, just leave "data" attributes blank and allow images to load from your server.
+  watermarkOpts: [
+    {text: 'Boy', value: '<%= image_path("boy.jpeg") %>', data: '<%= image_path("boy.jpeg") %>'},
+    {text: 'Boy 2', value: '<%= image_path("boy2.jpeg") %>', data: '<%= image_path("boy2.jpeg") %>'},
+    {text: 'Women', value: '<%= image_path("women.jpeg") %>', data: '<%= image_path("women.jpeg") %>'},
+    {text: 'Runner', value: '<%= image_path("runner.jpeg") %>', data: '<%= image_path("runner.jpeg") %>'}
+  ],
+
+  width: 595 // Canvas rendering width.
+};
