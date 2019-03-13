@@ -1,0 +1,43 @@
+<form class="m-editor" id="meme-editor-view">
+
+  <div class="panel">
+    <div class="panel-header"><h1>Choose Style</h1></div>
+    <div class="panel-body">
+      <h2><label for="theme">Theme</label></h2>
+      <select class="theme" id="theme">
+        <option value="" disabled>Select a theme</option>
+      </select>
+
+      <h2><label for="watermark">Image</label></h2>
+      <select class="watermark" id="watermark">
+        <option value="" disabled>Select an image</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h1>Add Media</h1></div>
+    <div class="panel-body">
+      <div class="dropzone" id="dropzone">Drop Image Here</div>
+
+      <h2><label for="image-scale">Resize image</label></h2>
+      <input id="image-scale" type="range" max="4" min=".01" step=".01" value="1">
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h1>Add Text</h1></div>
+    <div class="panel-body">
+      <h2><label for="headline">Title</label></h2>
+      <textarea id="headline" name="Title" type="text" value=""></textarea>
+
+      <h2><label for="name">Description</label></h2>
+      <textarea id="name" type="text" name="name" value="" /></textarea>
+
+      <h2><label for="font-size">Font Size</label></h2>
+      <select class="font-size" id="font-size">
+        <option value="" disabled>Select a font size</option>
+      </select>
+    </div>
+  </div>
+</form>
