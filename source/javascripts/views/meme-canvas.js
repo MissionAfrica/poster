@@ -221,7 +221,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
     }
 
     function renderFooter(ctx) {
-        ctx.drawImage(m.footer, 30, 746, 484, 66);
+        ctx.drawImage(m.footer, 30, 746, 403, 66);
     }
 
     renderBackgroundColor(ctx);
